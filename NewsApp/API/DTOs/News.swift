@@ -15,24 +15,39 @@ struct SourceStatus : Decodable {
 
 struct News : Decodable {
     
-    enum CodingKeys : String , CodingKey {
-        case author
-        case title
-        case description
-        case url
-        case urlToImage
-        case publishedAt
-        case contents = "content"
-    }
-    
-    var author : String?
+    //var author : String?
     var title : String
-    var description : String
-    var url : URL
-    var urlToImage : URL
-    var publishedAt : Date
-    var contents : String
+    //var description : String
+    var url : String
+    var urlToImage : String
+    //var publishedAt : String
+    //var content : String
     
 }
-
-
+/*
+extension News : Displayable {
+    var imageUrl: String {
+        urlToImage
+    }
+    
+    var titleLabelText: String {
+        title
+    }
+    
+    var desciptionText: String {
+        description
+    }
+    
+    var dateText: String {
+        publishedAt
+    }
+    
+    var sourceText: String {
+        author ?? "Unknown"
+    }
+    
+    
+    
+    
+}
+*/
