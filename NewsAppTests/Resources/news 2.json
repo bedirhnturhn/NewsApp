@@ -1,0 +1,33 @@
+{
+"status": "ok",
+"totalResults": 9490,
+"articles": [
+{
+"source": {
+"id": null,
+"name": "Yahoo Entertainment"
+},
+"author": "Jared Blikre",
+"title": "Here's why bitcoin is so volatile: trader",
+"description": "How technical analysis is ideally suited to analyzing and predicting cryptocurrency price movements",
+"url": "https://finance.yahoo.com/news/heres-why-bitcoin-is-so-volatile-102840443.html",
+"urlToImage": "https://s.yimg.com/ny/api/res/1.2/RRUOpXgF4qrKcy0ROL4BPQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTIwMDA7aD0xNTQ4/https://s.yimg.com/os/creatr-uploaded-images/2021-06/7a60dc40-cdf2-11eb-9ffe-c5c653bcf3a0",
+"publishedAt": "2021-06-16T10:28:40Z",
+"content": "As bitcoin (BTC-USD) holds above $40,000, investors are laser-focused on the price gyrations, attempting to divine the next big move. One former trader at the New York Stock Exchange is demonstrating… [+3528 chars]"
+},
+{
+"source": {
+"id": null,
+"name": "WGN TV Chicago"
+},
+"author": "Liz Jassin, Nexstar Media Wire",
+"title": "Elon Musk selling his 'last remaining house' in San Francisco",
+"description": "SpaceX CEO Elon Musk took to Twitter in May to announce that he'd be selling almost \"all physical possessions\" and that he would own \"no house.\"",
+"url": "https://wgntv.com/news/elon-musk-selling-his-last-remaining-house-in-san-francisco/",
+"urlToImage": "https://wgntv.com/wp-content/uploads/sites/5/2021/06/Elon.jpg?w=1280",
+"publishedAt": "2021-06-16T10:23:44Z",
+"content": "SAN FRANCISCO (KRON) In May, SpaceX CEO Elon Musk announced on Twitter that he would be selling almost “all physical possessions” and that he would own “no house.” \r\nSince then, the Tesla founder has… [+1517 chars]"
+}
+]
+}
+
