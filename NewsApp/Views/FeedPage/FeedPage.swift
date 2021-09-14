@@ -26,10 +26,10 @@ class FeedPage : UICollectionViewController {
             
             if sectionNumber == 0 {
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
-                item.contentInsets.trailing = 2
+                item.contentInsets.trailing = 0
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(225)), subitems: [item])
                 let section = NSCollectionLayoutSection(group: group)
-                section.orthogonalScrollingBehavior = .paging
+                /*section.orthogonalScrollingBehavior = .paging*/
                 return section
             } else if sectionNumber == 1 {
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))

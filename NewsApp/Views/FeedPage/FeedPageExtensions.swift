@@ -9,16 +9,7 @@ import UIKit
 
 extension FeedPage {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        /*
-        if section == 0 {
-            return topHeadlines.count
-        }else if section == 1 {
-            return 1
-        }
-        else {
-            return otherNEws.count
-        }
-        */
+        
         
         switch section {
         case 0: return topHeadlines.count

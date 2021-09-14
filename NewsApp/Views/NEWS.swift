@@ -10,9 +10,10 @@ import UIKit
 class NewsPage : UICollectionViewController {
     
     init(){
-        let layout = UICollectionViewFlowLayout()
+        let layout = UICollectionViewLayout()
         super.init(collectionViewLayout: layout)
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -20,7 +21,7 @@ class NewsPage : UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.register(NewsHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NewsHeader.identifier)
+        view.backgroundColor = .red
     }
     
 }
@@ -34,23 +35,6 @@ extension NewsPage {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
-    
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NewsHeader.identifier, for: indexPath)
-        return header
-    }
 }
 
 
-class NewsHeader : UICollectionReusableView {
-    static let identifier = "newsHeader"
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        backgroundColor = .green
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
