@@ -9,8 +9,6 @@ import UIKit
 
 extension FeedPage {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        
         switch section {
         case 0: return topHeadlines.count
         case 1: return 1
@@ -22,18 +20,24 @@ extension FeedPage {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sliderCell", for: indexPath) as! sliderCell
-            let item = topHeadlines[indexPath.row]
-            cell.headerText.text = item.title
-            cell.backgroundColor = .white
-            if let urlImage = URL(string: item.urlToImage ?? "https://ibb.co/KydcgZ8") {
-                cell.imageView.sd_setImage(with: urlImage) { image, error, CType, urll in
-                    
-                }
-            } else {
-                cell.imageView.image = UIImage(named: "slider")
-            }
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sliderCell", for: indexPath) as! sliderCell
+//            let item = topHeadlines[indexPath.row]
+//            cell.headerText.text = item.title
+//            cell.backgroundColor = .white
+//            if let urlImage = URL(string: item.urlToImage ?? "https://ibb.co/KydcgZ8") {
+//                cell.imageView.sd_setImage(with: urlImage) { image, error, CType, urll in
+//
+//                }
+//            } else {
+//                cell.imageView.image = UIImage(named: "slider")
+//            }
+//            return cell
+            
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "denemeCell", for: indexPath) as! denemeCell
             return cell
+            
+            
         } else if indexPath.section == 1{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "indicatorCell", for: indexPath) as! pageIndicator
             cell.scrollIndicator.numberOfPages = topHeadlines.count

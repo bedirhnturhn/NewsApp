@@ -29,7 +29,7 @@ class FeedPage : UICollectionViewController {
                 item.contentInsets.trailing = 0
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(225)), subitems: [item])
                 let section = NSCollectionLayoutSection(group: group)
-                /*section.orthogonalScrollingBehavior = .paging*/
+                section.orthogonalScrollingBehavior = .paging
                 return section
             } else if sectionNumber == 1 {
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
@@ -67,6 +67,7 @@ class FeedPage : UICollectionViewController {
         super.viewDidLoad()
         collectionView.backgroundColor = .white
         collectionView.register(sliderCell.self, forCellWithReuseIdentifier: "sliderCell")
+        collectionView.register(denemeCell.self, forCellWithReuseIdentifier: "denemeCell")
         collectionView.register(otherCell.self, forCellWithReuseIdentifier: "otherCell")
         collectionView.register(HeaderText.self, forSupplementaryViewOfKind: "naberanlamadım", withReuseIdentifier: "headerId")
         collectionView.register(pageIndicator.self, forCellWithReuseIdentifier: "indicatorCell")

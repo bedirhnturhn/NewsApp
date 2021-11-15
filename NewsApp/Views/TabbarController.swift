@@ -11,7 +11,7 @@ class TabBarController: UITabBarController {
     
     public static let apiKey = "565b53ef125c494985797acd7d1cfdf4"
     
-    let vc1 = UINavigationController(rootViewController: FeedPage())
+    let vc1 = UINavigationController(rootViewController: HomePage(collectionViewLayout: UICollectionViewFlowLayout()))
     let vc2 = UINavigationController(rootViewController: CategorizePage())
     let vc3 = UINavigationController(rootViewController: SearchPage())
    
@@ -21,7 +21,17 @@ class TabBarController: UITabBarController {
         vc2.title = "CATEGORY"
         vc3.title = "SEARCH"
         setImage()
-        self.selectedIndex = 1
+        self.selectedIndex = 0
+        
+        // White non-transucent navigatio bar, supports dark appearance
+        if #available(iOS 15, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            UINavigationBar.appearance().standardAppearance = appearance
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        }
+
+        
     }
     
     func setImage() {
