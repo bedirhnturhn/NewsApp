@@ -9,9 +9,9 @@ News application which you can read daily news and categorize. Apps architecture
 - Complete Search Page
 
 # Feature
--Programmatically UI
--Custom views and layouts
--Nested collection views.
+- Programmatically UI
+- Custom views and layouts
+- Nested collection views.
 
 # 3rd Party Libraries
 - SDWebImage
