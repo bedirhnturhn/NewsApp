@@ -61,7 +61,7 @@ final class HomePageHeader: UICollectionReusableView, UIScrollViewDelegate {
             let newsO = objectNews
             let newsViewC = SliderCellView2()
             newsViewC.newsHeaderLabel.text = newsO.title
-            guard let imageUrl = URL(string: newsO.urlToImage!) else {return}
+            guard let imageUrl = URL(string: newsO.urlToImage ?? "") else {return}
             newsViewC.imageView.sd_setImage(with: imageUrl, completed: nil)
             scrollViewNews.addSubview(newsViewC)
             newsViewC.frame.size.width = CGFloat(self.bounds.width)
@@ -74,7 +74,6 @@ final class HomePageHeader: UICollectionReusableView, UIScrollViewDelegate {
     
     @objc func goNewsDetailFromSlider(sender: UIButton){
         print("ciktimizi \(sender.tag)")
-        // i will try push new view controller with protocol !!!!!!
         delegate?.showNewsDetailsInHomeSlider(sender.tag)
         
     }

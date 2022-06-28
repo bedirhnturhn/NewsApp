@@ -17,13 +17,15 @@ final class HomeViewModel : HomeViewModelProtocol {
     weak var sliderObject : HomePageHeader?
     
     func load() {
+        fetchTopNews()
         fetchOtherNews()
     }
     
     func fetchTopNews() {
-        newsServices.fetchTHNewsDelegate(5, .general) { [self] result in
+        newsServices.fetchTHNewsDelegate(5, .business) { [self] result in
             switch result {
             case .success(let fetchedNews):
+                print(fetchedNews)
                 topHeadlinesNEws = fetchedNews
                 sliderObject?.updateUI(new: topHeadlinesNEws)
             case .failure(let error):
@@ -65,7 +67,6 @@ final class HomeViewModel : HomeViewModelProtocol {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomePageHeader.headerId, for: indexPath) as! HomePageHeader
         header.delegate = self
         sliderObject = header
-        fetchTopNews()
         return header
     }
 }
