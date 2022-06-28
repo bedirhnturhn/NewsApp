@@ -3,7 +3,7 @@ News application which you can read daily news and categorize. Apps architecture
 
 # TODOS
 - Implements new network service with RxSwift
-- Change all pages with MVVM architecture
+- Change all pages with MVVM architecture(Home Page Completed)
 - Add functional programming with RxSwift feature to all pages 
 - ReLayout with Snapkit
 - Complete Search Page
