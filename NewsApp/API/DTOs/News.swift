@@ -8,12 +8,12 @@
 import Foundation
 
 
-struct SourceStatus : Decodable {
+struct SourceStatus : Codable {
     let status : String
     let articles : [News]
 }
 
-struct News : Decodable {
+struct News : Codable{
     
     //var author : String?
     var title : String
@@ -24,30 +24,3 @@ struct News : Decodable {
     var content : String?
     
 }
-/*
-extension News : Displayable {
-    var imageUrl: String {
-        urlToImage
-    }
-    
-    var titleLabelText: String {
-        title
-    }
-    
-    var desciptionText: String {
-        description
-    }
-    
-    var dateText: String {
-        publishedAt
-    }
-    
-    var sourceText: String {
-        author ?? "Unknown"
-    }
-    
-    
-    
-    
-}
-*/

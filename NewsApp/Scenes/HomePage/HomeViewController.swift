@@ -17,6 +17,12 @@ final class HomeViewController : UICollectionViewController, UICollectionViewDel
     var topHeadlines : [News] = []
     weak var headerObject : HomePageHeader?
     
+    lazy var viewModel : HomeViewModelProtocol = {
+        let vm = HomeViewModel()
+        vm.delegate = self
+        return vm
+    }()
+    
     //MARK: - Life Cycles
     override init(collectionViewLayout layout: UICollectionViewLayout) {
         super.init(collectionViewLayout: layout)
@@ -38,20 +44,10 @@ final class HomeViewController : UICollectionViewController, UICollectionViewDel
         collectionView.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.cellId)
         collectionView.backgroundColor = .white
         collectionView.register(HomePageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomePageHeader.headerId)
-        fetchHomeNews()
         fetchData()
+        viewModel.fetchOtherNews()
     }
     
-    
-    func fetchHomeNews() {
-        AF.request("https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=565b53ef125c494985797acd7d1cfdf4")
-            .validate()
-            .responseDecodable(of: SourceStatus.self) { (response) in
-                guard let stored = response.value?.articles else { return }
-                self.otherNEws = stored
-                self.collectionView.reloadData()
-        }
-    }
     
     func fetchData()   {
         AF.request("https://newsapi.org/v2/everything?q=apple&sortBy=popularity&apiKey=565b53ef125c494985797acd7d1cfdf4")
@@ -69,6 +65,7 @@ final class HomeViewController : UICollectionViewController, UICollectionViewDel
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.cellId, for: indexPath) as! HomeCollectionViewCell
+        viewModel.collectionView(collectionView, cellForItemAt: indexPath, cell: cell)
         let item = otherNEws[indexPath.row]
         cell.headerText.text = item.title
         let imageUrl = URL(string: item.urlToImage!)
@@ -81,10 +78,8 @@ final class HomeViewController : UICollectionViewController, UICollectionViewDel
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomePageHeader.headerId, for: indexPath) as! HomePageHeader
-        header.delegate = self
-        headerObject = header
-        return header
+        return viewModel.collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
+        
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return .init(width: view.frame.width , height: 260 )
@@ -101,4 +96,8 @@ extension HomeViewController : HomeHeaderDelegate{
         let vc = NewsContentPage(newsObject: topHeadlines[selectedNewsIndex])
         navigationController?.pushViewController(vc, animated: true)
     }
+}
+
+extension HomeViewController : HomeViewModelDelegate {
+    
 }

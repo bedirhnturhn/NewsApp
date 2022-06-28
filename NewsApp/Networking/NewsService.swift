@@ -19,6 +19,8 @@ protocol NewsServiceProtocol {
 }
 
 class NewsService: NewsServiceProtocol {
+    
+    var completionFetch : ((Result<[News], NetworkResponse>) -> Void)?
 
     func fetchSources(_ from: SRequest) -> Observable<SourcesModel> {
 
@@ -28,6 +30,11 @@ class NewsService: NewsServiceProtocol {
     func fetch(_ page: Int) -> Observable<ENewsModel> {
 
         return apiRequest(NewsAPI.fetch(page).createUrlRequest()!)
+    }
+    
+    func fetchDelegate(_ page: Int, completion : ((Result<[News], NetworkResponse>) -> Void)?) {
+        completionFetch = completion
+        apiRequest2(NewsAPI.fetch(page).createUrlRequest()!)
     }
 
     func fetchTHNews(_ page: Int, _ category: THCategories) -> Observable<THNewsModel> {
@@ -79,4 +86,38 @@ class NewsService: NewsServiceProtocol {
             }
         }
     }
+    
+    
+    func apiRequest2(_ urlRequest: URLRequest) {
+            let task = URLSession.shared.dataTask(with: urlRequest) { [self] (data, response, error) in
+
+                if let _ = error {
+                    completionFetch?(.failure(NetworkResponse.badRequest))
+                    completionFetch = nil
+                }
+                guard let data = data else {
+                    completionFetch?(.failure(NetworkResponse.noData))
+                    completionFetch = nil
+                    return
+                }
+                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                    completionFetch?(.failure(NetworkResponse.badRequest))
+                    completionFetch = nil
+                    return
+                }
+
+                do {
+                    let decoder = JSONDecoder()
+                    let sourceJsonDecoded = try decoder.decode(SourceStatus.self, from: data)
+                    let news = sourceJsonDecoded.articles
+                    completionFetch?(.success(news))
+                    completionFetch = nil
+                } catch {
+                    completionFetch?(.failure(NetworkResponse.unableToDecode))
+                    completionFetch = nil
+                }
+            }
+            task.resume()
+    }
+
 }

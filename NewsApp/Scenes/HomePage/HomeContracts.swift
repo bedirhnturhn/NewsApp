@@ -6,9 +6,15 @@
 //
 
 import Foundation
+import UIKit
 
 protocol HomeViewModelProtocol {
-    
+    var delegate : HomeViewModelDelegate? {get set}
+    func load()
+    func fetchTopNews()
+    func fetchOtherNews()
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath,cell : HomeCollectionViewCell)
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView
 }
 
 enum HomeModelOutput : Equatable{
@@ -17,6 +23,7 @@ enum HomeModelOutput : Equatable{
 }
 
 enum HomeRoute {
+    
 }
 
 protocol HomeViewModelDelegate {
