@@ -1,0 +1,109 @@
+//
+//  CategorizePage.swift
+//  NewsApp
+//
+//  Created by Bedirhan Turhan on 6/24/21.
+//
+
+import UIKit
+
+class CategorizeViewController : UICollectionViewController {
+    
+    //MARK: -Properties
+    let mainImageName  = ["content1","content2" ,"content3" ,"content4"]
+    let mainCellName = ["General", "Business", "Technology", "Science"]
+    
+    let otherCellName = ["entertainment","health","sports"]
+    let otherImageName = ["content5","content6","content7"]
+    let categoryName = ["general","business","technology","science","entertainment","health","sports"]
+    
+    init() {
+        super.init(collectionViewLayout: CategorizeViewController.createLayout())
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    static func createLayout() -> UICollectionViewCompositionalLayout{
+        UICollectionViewCompositionalLayout { (sectionNumber, env) -> NSCollectionLayoutSection? in
+            if sectionNumber == 0 {
+            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1/2), heightDimension: .absolute(120)))
+            item.contentInsets.trailing = 6
+            item.contentInsets.bottom = 6
+            item.contentInsets.leading = 6
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(60)), subitems: [item])
+            let section = NSCollectionLayoutSection(group: group)
+            return section
+            } else {
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)))
+                item.contentInsets.bottom = 6
+                item.contentInsets.leading = 6
+                item.contentInsets.trailing = 6
+                
+                let group = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(56)), subitems: [item])
+                let section = NSCollectionLayoutSection(group: group)
+                
+                return section
+            }
+        }
+    }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = "Category"
+        collectionView.backgroundColor = .white
+        collectionView.register(CategoryMainCell.self, forCellWithReuseIdentifier: CategoryMainCell.id)
+        collectionView.register(CategoryOtherCell.self, forCellWithReuseIdentifier: CategoryOtherCell.id)
+    }
+    
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
+    
+}
+
+extension CategorizeViewController {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if section == 0{
+            return 4
+        }else {
+            return 3
+        }
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.section == 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryMainCell", for: indexPath) as! CategoryMainCell
+            cell.textContent.text = mainCellName[indexPath.row]
+            cell.imageView.image = UIImage(named: mainImageName[indexPath.row])
+            
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryOtherCell", for: indexPath) as! CategoryOtherCell
+            cell.textContent.text = otherCellName[indexPath.row]
+            cell.genreIcon.image = UIImage(named: otherImageName[indexPath.row])
+            return cell
+        }
+        
+    }
+}
+
+extension CategorizeViewController {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        var selectedItem = ""
+        
+        if indexPath.section == 0 {
+            selectedItem = mainCellName[indexPath.row].lowercased()
+        }else {
+            selectedItem = otherCellName[indexPath.row].lowercased()
+        }
+        
+        let vc = CategoryResult(categoryName: selectedItem)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+
