@@ -22,3 +22,12 @@ enum HomeRoute {
 protocol HomeViewModelDelegate {
     
 }
+
+protocol HomeHeaderProtocol : AnyObject{
+    var delegate : HomeHeaderDelegate? { get set }
+    func updateUI(new news: [News])
+}
+
+protocol HomeHeaderDelegate : AnyObject{
+    func showNewsDetailsInHomeSlider(_ selectedNewsIndex : Int)
+}

@@ -12,13 +12,13 @@ import Alamofire
 final class HomePageHeader: UICollectionReusableView, UIScrollViewDelegate {
     
     public static let headerId = "headerId"
+    weak var delegate : HomeHeaderDelegate?
     
     lazy var scrollViewNews : UIScrollView = {
         let scrllV = UIScrollView()
         scrllV.translatesAutoresizingMaskIntoConstraints = false
         scrllV.isPagingEnabled = true
         scrllV.showsHorizontalScrollIndicator = false
-//        scrllV.backgroundColor = .blue
         return scrllV
     }()
     
@@ -41,13 +41,10 @@ final class HomePageHeader: UICollectionReusableView, UIScrollViewDelegate {
     
         scrollViewNews.delegate = self
         
-        fetchData()
-        
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let page = scrollView.contentOffset.x / self.frame.size.width
-        print(page)
         scrollIndicator.currentPage = Int(page)
     }
     
@@ -79,19 +76,11 @@ final class HomePageHeader: UICollectionReusableView, UIScrollViewDelegate {
     @objc func goNewsDetailFromSlider(sender: UIButton){
         print("ciktimizi \(sender.tag)")
         // i will try push new view controller with protocol !!!!!!
+        delegate?.showNewsDetailsInHomeSlider(sender.tag)
         
     }
     
-    func fetchData()   {
-        AF.request("https://newsapi.org/v2/everything?q=apple&sortBy=popularity&apiKey=565b53ef125c494985797acd7d1cfdf4")
-            .validate()
-            .responseDecodable(of: SourceStatus.self) { (response) in
-                guard let stored = response.value?.articles else { return }
-                self.topHeadlines = stored
-                self.loadFeatures()
-               
-        }
-    }
+    
     
     private func setupLayout(){
         self.addSubview(scrollViewNews)
@@ -144,7 +133,6 @@ class SliderCellView2 : UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
-       
     }
     
     required init?(coder: NSCoder) {
@@ -172,4 +160,12 @@ class SliderCellView2 : UIView {
         selectCellButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
     
+}
+
+extension HomePageHeader : HomeHeaderProtocol{
+    func updateUI(new news: [News]) {
+        topHeadlines = news
+        scrollViewNews.reloadInputViews()
+        loadFeatures()
+    }
 }

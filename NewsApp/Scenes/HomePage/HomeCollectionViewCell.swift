@@ -8,6 +8,7 @@
 import UIKit
 import Alamofire
 import SDWebImage
+import SnapKit
 
 final class HomeCollectionViewCell : UICollectionViewCell {
     public static let cellId = "cellid"
@@ -15,7 +16,6 @@ final class HomeCollectionViewCell : UICollectionViewCell {
     let imageView : UIImageView = {
         let imageV = UIImageView()
         imageV.backgroundColor = .white
-        imageV.translatesAutoresizingMaskIntoConstraints = false
         imageV.image = UIImage(named: "slider")
         imageV.layer.cornerRadius = 5.0
         imageV.clipsToBounds = true
@@ -26,16 +26,12 @@ final class HomeCollectionViewCell : UICollectionViewCell {
         let textView =  UITextView()
         textView.isEditable = false
         textView.textColor = .black
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.text = "other DENEMEMEMEME"
-        
         textView.textAlignment = .center
         return textView
     }()
     
     let pageControl : UIPageControl = {
         let page = UIPageControl()
-        page.translatesAutoresizingMaskIntoConstraints = false
         page.currentPage = 1
         page.numberOfPages = 5
         page.backgroundColor = .black
@@ -45,7 +41,6 @@ final class HomeCollectionViewCell : UICollectionViewCell {
     let blackView : UIView = {
         let blackview = UIView()
         blackview.backgroundColor = .systemGray3
-        blackview.translatesAutoresizingMaskIntoConstraints = false
         return blackview
     }()
     
@@ -54,15 +49,33 @@ final class HomeCollectionViewCell : UICollectionViewCell {
         setupLayouts()
     }
     
+    
+    
     func setupLayouts() {
         addSubview(imageView)
         addSubview(headerText)
         addSubview(blackView)
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-4-[v0]-4-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["v0": imageView ]))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]-5-[v1(50)]-[v2(1)]|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["v0": imageView , "v1" : headerText, "v2" : blackView]))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-4-[v0]-4-|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["v0" : headerText]))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutConstraint.FormatOptions(), metrics: nil, views: ["v0" : blackView]))
         
+        headerText.snp.makeConstraints { make in
+            make.height.equalTo(50)
+            make.right.equalToSuperview().offset(-6)
+            make.left.equalToSuperview().offset(6)
+            make.bottom.equalToSuperview().offset(-6)
+        }
+        
+        imageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(6)
+            make.right.equalToSuperview().offset(-6)
+            make.left.equalToSuperview().offset(6)
+            make.bottom.equalTo(headerText.snp.top).offset(-6)
+        }
+        
+        blackView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.right.equalToSuperview()
+            make.left.equalToSuperview()
+            make.height.equalTo(1)
+        }
     }
     
     

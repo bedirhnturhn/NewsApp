@@ -10,12 +10,17 @@ import Alamofire
 
 final class HomeViewController : UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
+    //MARK: - Properties
+    weak var headerDelegate : HomePageHeader?
+    let padding : CGFloat = 16
+    var otherNEws : [News] = []
+    var topHeadlines : [News] = []
+    weak var headerObject : HomePageHeader?
+    
+    //MARK: - Life Cycles
     override init(collectionViewLayout layout: UICollectionViewLayout) {
         super.init(collectionViewLayout: layout)
     }
-    
-    let padding : CGFloat = 16
-    var otherNEws : [News] = []
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -34,6 +39,7 @@ final class HomeViewController : UICollectionViewController, UICollectionViewDel
         collectionView.backgroundColor = .white
         collectionView.register(HomePageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomePageHeader.headerId)
         fetchHomeNews()
+        fetchData()
     }
     
     
@@ -44,6 +50,16 @@ final class HomeViewController : UICollectionViewController, UICollectionViewDel
                 guard let stored = response.value?.articles else { return }
                 self.otherNEws = stored
                 self.collectionView.reloadData()
+        }
+    }
+    
+    func fetchData()   {
+        AF.request("https://newsapi.org/v2/everything?q=apple&sortBy=popularity&apiKey=565b53ef125c494985797acd7d1cfdf4")
+            .validate()
+            .responseDecodable(of: SourceStatus.self) { (response) in
+                guard let stored = response.value?.articles else { return }
+                self.topHeadlines = stored
+                self.headerObject?.updateUI(new: self.topHeadlines)
         }
     }
     
@@ -65,7 +81,9 @@ final class HomeViewController : UICollectionViewController, UICollectionViewDel
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomePageHeader.headerId, for: indexPath)
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomePageHeader.headerId, for: indexPath) as! HomePageHeader
+        header.delegate = self
+        headerObject = header
         return header
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -74,6 +92,13 @@ final class HomeViewController : UICollectionViewController, UICollectionViewDel
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = NewsContentPage(newsObject: otherNEws[indexPath.row])
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension HomeViewController : HomeHeaderDelegate{
+    func showNewsDetailsInHomeSlider(_ selectedNewsIndex: Int) {
+        let vc = NewsContentPage(newsObject: topHeadlines[selectedNewsIndex])
         navigationController?.pushViewController(vc, animated: true)
     }
 }
