@@ -21,7 +21,7 @@ protocol NewsServiceProtocol {
 class NewsService: NewsServiceProtocol {
     
     var completionFetch : ((Result<[News], NetworkResponse>) -> Void)?
-
+    
     func fetchSources(_ from: SRequest) -> Observable<SourcesModel> {
 
         return apiRequest(NewsAPI.fetchSources(from).createUrlRequest()!)
@@ -38,11 +38,15 @@ class NewsService: NewsServiceProtocol {
     }
 
     func fetchTHNews(_ page: Int, _ category: THCategories) -> Observable<THNewsModel> {
-
         return apiRequest(NewsAPI.fetchTHNews(page, category).createUrlRequest()!)
-
     }
 
+    func fetchTHNewsDelegate(_ page: Int, _ category: THCategories, completion : ((Result<[News], NetworkResponse>) -> Void)?) {
+        completionFetch = completion
+        apiRequest2(NewsAPI.fetchTHNews(page, category).createUrlRequest()!)
+
+    }
+    
     func fetchDataForSearchController(_ searchedQuery: String, _ page: Int) -> Observable<ENewsModel> {
 
         return apiRequest(NewsAPI.fetchDataForSearchController(searchedQuery, page).createUrlRequest()!)

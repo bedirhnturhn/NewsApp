@@ -53,7 +53,6 @@ final class HomePageHeader: UICollectionReusableView, UIScrollViewDelegate {
     }
     
     private func loadFeatures(){
-        
         scrollViewNews.subviews.forEach({ $0.removeFromSuperview() })
         scrollIndicator.numberOfPages = topHeadlines.count
         scrollViewNews.contentSize = CGSize(width: self.bounds.width * CGFloat(topHeadlines.count), height: CGFloat(225))
@@ -164,8 +163,10 @@ class SliderCellView2 : UIView {
 
 extension HomePageHeader : HomeHeaderProtocol{
     func updateUI(new news: [News]) {
-        topHeadlines = news
-        scrollViewNews.reloadInputViews()
-        loadFeatures()
+        DispatchQueue.main.async { [self] in
+            topHeadlines = news
+            scrollViewNews.reloadInputViews()
+            loadFeatures()
+        }
     }
 }
