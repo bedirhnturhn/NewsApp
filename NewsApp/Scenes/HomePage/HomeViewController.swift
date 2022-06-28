@@ -77,7 +77,11 @@ final class HomeViewController : UICollectionViewController, UICollectionViewDel
 
 extension HomeViewController : HomeViewModelDelegate {
     func navigate(to route: HomeRoute) {
-        
+        switch route {
+        case .newsDetail(let selectedNews):
+            let vc = NewsContentPage(newsObject: selectedNews)
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func handleViewModelOutput(_ output: HomeModelOutput) {
