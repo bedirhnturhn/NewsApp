@@ -10,7 +10,7 @@ import UIKit
 class TabBarController: UITabBarController {
     
     let vc1 = UINavigationController(rootViewController: HomeViewController(collectionViewLayout: UICollectionViewFlowLayout()))
-    let vc2 = UINavigationController(rootViewController: CategorizePage())
+    let vc2 = UINavigationController(rootViewController: CategorizeViewController())
     let vc3 = UINavigationController(rootViewController: SearchPage())
    
     override func viewDidLoad() {

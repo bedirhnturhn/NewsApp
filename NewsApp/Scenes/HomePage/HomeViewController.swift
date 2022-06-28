@@ -79,7 +79,7 @@ extension HomeViewController : HomeViewModelDelegate {
     func navigate(to route: HomeRoute) {
         switch route {
         case .newsDetail(let selectedNews):
-            let vc = NewsContentPage(newsObject: selectedNews)
+            let vc = NewsDetailViewController(newsObject: selectedNews)
             navigationController?.pushViewController(vc, animated: true)
         }
     }

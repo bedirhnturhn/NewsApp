@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+final class CategorizeViewModel : CategorizeViewModelProtocol{
+    weak var delegate: CategorizeViewModelDelegate?
+}

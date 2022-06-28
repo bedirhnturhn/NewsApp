@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CategorizeViewController : UICollectionViewController {
+final class CategorizeViewController : UICollectionViewController {
     
     //MARK: -Properties
     let mainImageName  = ["content1","content2" ,"content3" ,"content4"]
@@ -87,7 +87,6 @@ extension CategorizeViewController {
             cell.genreIcon.image = UIImage(named: otherImageName[indexPath.row])
             return cell
         }
-        
     }
 }
 

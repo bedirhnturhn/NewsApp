@@ -62,7 +62,7 @@ extension CategoryResult{
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = NewsContentPage(newsObject: news[indexPath.row])
+        let vc = NewsDetailViewController(newsObject: news[indexPath.row])
         navigationController?.pushViewController(vc, animated: true)
     }
 }
