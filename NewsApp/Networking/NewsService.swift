@@ -15,7 +15,7 @@ protocol NewsServiceProtocol {
     func fetchNewsWithSources(_ page: Int, _ source: String) -> Observable<ENewsModel>
     func fetchTHNews(_ page: Int, _ category: THCategories) -> Observable<THNewsModel>
     func fetch(_ page: Int) -> Observable<ENewsModel>
-
+    func fetchTHNewsDelegate(_ page: Int, _ category: THCategories, completion : ((Result<[THArticleModel], NetworkResponse>) -> Void)?)
 }
 
 class NewsService: NewsServiceProtocol {
@@ -29,7 +29,7 @@ class NewsService: NewsServiceProtocol {
         return apiRequest(NewsAPI.fetch(page).createUrlRequest()!)
     }
     
-    func fetchDelegate(_ page: Int, completion : ((Result<[News], NetworkResponse>) -> Void)?) {
+    func fetchDelegate(_ page: Int, completion : ((Result<[THArticleModel], NetworkResponse>) -> Void)?) {
         apiRequest2(NewsAPI.fetch(page).createUrlRequest()!) { result in
             completion!(result)
         }
@@ -39,7 +39,7 @@ class NewsService: NewsServiceProtocol {
         return apiRequest(NewsAPI.fetchTHNews(page, category).createUrlRequest()!)
     }
 
-    func fetchTHNewsDelegate(_ page: Int, _ category: THCategories, completion : ((Result<[News], NetworkResponse>) -> Void)?) {
+    func fetchTHNewsDelegate(_ page: Int, _ category: THCategories, completion : ((Result<[THArticleModel], NetworkResponse>) -> Void)?) {
         apiRequest2(NewsAPI.fetchTHNews(page, category).createUrlRequest()!) { responce in
             completion!(responce)
         }
@@ -91,7 +91,7 @@ class NewsService: NewsServiceProtocol {
     }
     
     
-    func apiRequest2(_ urlRequest: URLRequest,completion: @escaping((Result<[News], NetworkResponse>) -> Void)) {
+    func apiRequest2(_ urlRequest: URLRequest,completion: @escaping((Result<[THArticleModel], NetworkResponse>) -> Void)) {
             let task = URLSession.shared.dataTask(with: urlRequest) { [self] (data, response, error) in
 
                 if let _ = error {
@@ -108,7 +108,7 @@ class NewsService: NewsServiceProtocol {
 
                 do {
                     let decoder = JSONDecoder()
-                    let sourceJsonDecoded = try decoder.decode(SourceStatus.self, from: data)
+                    let sourceJsonDecoded = try decoder.decode(THNewsModel.self, from: data)
                     let news = sourceJsonDecoded.articles
                     completion(.success(news))
                 } catch {

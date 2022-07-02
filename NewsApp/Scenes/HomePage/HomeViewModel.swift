@@ -22,28 +22,28 @@ final class HomeViewModel : HomeViewModelProtocol {
     }
     
     func fetchTopNews() {
-        newsServices.fetchTHNewsDelegate(5, .business) { [self] result in
-            switch result {
-            case .success(let fetchedNews):
-                print(fetchedNews)
-                topHeadlinesNEws = fetchedNews
-                sliderObject?.updateUI(new: topHeadlinesNEws)
-            case .failure(let error):
-                delegate?.handleViewModelOutput(.showNotification(result: false, notificationText: error.rawValue))
-            }
-        }
+//        newsServices.fetchTHNewsDelegate(5, .business) { [self] result in
+//            switch result {
+//            case .success(let fetchedNews):
+//                print(fetchedNews)
+//                topHeadlinesNEws = fetchedNews
+//                sliderObject?.updateUI(new: topHeadlinesNEws)
+//            case .failure(let error):
+//                delegate?.handleViewModelOutput(.showNotification(result: false, notificationText: error.rawValue))
+//            }
+//        }
     }
     
     func fetchOtherNews() {
-        newsServices.fetchDelegate(10) {[self] result in
-            switch(result){
-            case .success(let fetchedNews):
-                otherNews = fetchedNews
-                delegate?.handleViewModelOutput(.updateCollectionView)
-            case .failure(let error):
-                delegate?.handleViewModelOutput(.showNotification(result: false, notificationText: error.rawValue))
-            }
-        }
+//        newsServices.fetchDelegate(10) {[self] result in
+//            switch(result){
+//            case .success(let fetchedNews):
+//                otherNews = fetchedNews
+//                delegate?.handleViewModelOutput(.updateCollectionView)
+//            case .failure(let error):
+//                delegate?.handleViewModelOutput(.showNotification(result: false, notificationText: error.rawValue))
+//            }
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

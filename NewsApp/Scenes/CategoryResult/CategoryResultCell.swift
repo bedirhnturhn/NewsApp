@@ -9,6 +9,8 @@ import UIKit
 
 class CategoryResultCell: UICollectionViewCell {
     
+    static let id = "categoryResultCell"
+    
     let imageView : UIImageView = {
         let imageV = UIImageView()
         imageV.translatesAutoresizingMaskIntoConstraints = false

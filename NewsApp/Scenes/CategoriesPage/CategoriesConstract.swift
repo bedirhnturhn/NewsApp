@@ -27,5 +27,5 @@ enum CategoriesViewModelOutput{
 }
 
 enum CategoriesRoute {
-    case categorieResult(_ selectedCategory : Categories)
+    case categorieResult(_ selectedCategory : THCategories)
 }

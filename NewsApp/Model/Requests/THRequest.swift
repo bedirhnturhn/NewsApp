@@ -14,7 +14,7 @@ struct THRequest {
     let pageSize: Int?
     let page: Int?
 }
-enum THCategories {
+enum THCategories : String {
     case business
     case entertainment
     case general

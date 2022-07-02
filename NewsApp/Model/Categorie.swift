@@ -8,16 +8,7 @@
 import Foundation
 
 struct Categorie{
-    let categorieName : Categories
+    let categorieName : THCategories
     let categorieImageName : String
 }
 
-enum Categories : String{
-    case general
-    case business
-    case technology
-    case science
-    case entertainment
-    case health
-    case sports
-}
