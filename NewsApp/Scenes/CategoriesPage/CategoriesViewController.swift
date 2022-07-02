@@ -7,18 +7,18 @@
 
 import UIKit
 
-final class CategorizeViewController : UICollectionViewController {
+final class CategoriesViewController : UICollectionViewController {
     
     //MARK: -Properties
-    let mainImageName  = ["content1","content2" ,"content3" ,"content4"]
-    let mainCellName = ["General", "Business", "Technology", "Science"]
+    lazy var viewModel : CategoriesViewModel = {
+        let vm = CategoriesViewModel()
+        vm.delegate = self
+        return vm
+    }()
     
-    let otherCellName = ["entertainment","health","sports"]
-    let otherImageName = ["content5","content6","content7"]
-    let categoryName = ["general","business","technology","science","entertainment","health","sports"]
-    
+    //MARK: - Init
     init() {
-        super.init(collectionViewLayout: CategorizeViewController.createLayout())
+        super.init(collectionViewLayout: CategoriesViewController.createLayout())
     }
     
     required init?(coder: NSCoder) {
@@ -49,9 +49,14 @@ final class CategorizeViewController : UICollectionViewController {
         }
     }
     
-    
+    //MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.load()
+        setup()
+    }
+    
+    func setup(){
         self.title = "Category"
         collectionView.backgroundColor = .white
         collectionView.register(CategoryMainCell.self, forCellWithReuseIdentifier: CategoryMainCell.id)
@@ -61,48 +66,47 @@ final class CategorizeViewController : UICollectionViewController {
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
-    
-    
 }
 
-extension CategorizeViewController {
+extension CategoriesViewController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0{
-            return 4
-        }else {
-            return 3
-        }
+        viewModel.collectionView(collectionView, numberOfItemsInSection: section)
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryMainCell", for: indexPath) as! CategoryMainCell
-            cell.textContent.text = mainCellName[indexPath.row]
-            cell.imageView.image = UIImage(named: mainImageName[indexPath.row])
-            
-            return cell
-        } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryOtherCell", for: indexPath) as! CategoryOtherCell
-            cell.textContent.text = otherCellName[indexPath.row]
-            cell.genreIcon.image = UIImage(named: otherImageName[indexPath.row])
-            return cell
-        }
+        viewModel.collectionView(collectionView, cellForItemAt: indexPath)
     }
 }
 
-extension CategorizeViewController {
+extension CategoriesViewController {
+    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        var selectedItem = ""
-        
-        if indexPath.section == 0 {
-            selectedItem = mainCellName[indexPath.row].lowercased()
-        }else {
-            selectedItem = otherCellName[indexPath.row].lowercased()
-        }
-        
-        let vc = CategoryResult(categoryName: selectedItem)
-        navigationController?.pushViewController(vc, animated: true)
+        viewModel.collectionView(collectionView, didSelectItemAt: indexPath)
     }
 }
 
-
+//MARK: ViewModel Delegate
+extension CategoriesViewController : CategoriesViewModelDelegate {
+    func handleViewModelOutput(_ output: CategoriesViewModelOutput) {
+        switch output {
+        case .showNotification(let result, let notificationText):
+            if(result){
+                customNotification(_title: "Success!", _message: notificationText)
+            }else{
+                customNotification(_title: "Error!", _message: notificationText)
+            }
+        case .updateCollectionView:
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
+    func navigate(to route: CategoriesRoute) {
+        switch route {
+        case .categorieResult(let selectedCategorie):
+            let vc = CategoryResult(categoryName: selectedCategorie.rawValue)
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+}
