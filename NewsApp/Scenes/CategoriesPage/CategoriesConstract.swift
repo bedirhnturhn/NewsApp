@@ -11,9 +11,7 @@ import UIKit
 protocol CategoriesViewModelProtocol : AnyObject{
     var delegate : CategoriesViewModelDelegate? { get set }
     func load()
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
+    func categorieDidSelect(selected index : IndexPath)
 }
 
 protocol CategoriesViewModelDelegate : AnyObject {
@@ -22,8 +20,9 @@ protocol CategoriesViewModelDelegate : AnyObject {
 }
 
 enum CategoriesViewModelOutput{
+    case setTitle(String)
     case showNotification(result: Bool,notificationText : String)
-    case updateCollectionView
+    case setCategories(_ mainCategories : [CategoriesPresentations], _ otherCategories : [CategoriesPresentations])
 }
 
 enum CategoriesRoute {

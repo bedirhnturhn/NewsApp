@@ -23,7 +23,7 @@ final class CategoryResultViewModel : CategoryResultViewModelProtocol {
     
     func load() {
         notify(.setLoading(true))
-        notify(.updateTitle("News"))
+        notify(.updateTitle(selectedCategory.rawValue.uppercased()))
         service?.fetchTHNewsDelegate(2, selectedCategory, completion: { [self] result in
             notify(.setLoading(false))
             switch result {

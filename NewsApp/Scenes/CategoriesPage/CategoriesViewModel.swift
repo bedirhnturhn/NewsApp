@@ -11,44 +11,26 @@ import UIKit
 final class CategoriesViewModel : CategoriesViewModelProtocol{
     //MARK: - Properties
     weak var delegate: CategoriesViewModelDelegate?
-    let mainCategories : Array<Categorie> =
-    [Categorie(categorieName: .general, categorieImageName: "content1"),Categorie(categorieName: .business, categorieImageName: "content2"),Categorie(categorieName: .technology, categorieImageName: "content3"), Categorie(categorieName: .science, categorieImageName: "content4")]
-    let otherCategories : Array<Categorie> =
-    [Categorie(categorieName: .entertainment, categorieImageName: "content5"),Categorie(categorieName: .health, categorieImageName: "content6"), Categorie(categorieName: .sports, categorieImageName: "content7")]
+    let mainCategories : Array<CategoriesPresentations> =
+    [CategoriesPresentations(categorieName: .general, categorieImageName: "content1"),CategoriesPresentations(categorieName: .business, categorieImageName: "content2"),CategoriesPresentations(categorieName: .technology, categorieImageName: "content3"), CategoriesPresentations(categorieName: .science, categorieImageName: "content4")]
+    let otherCategories : Array<CategoriesPresentations> =
+    [CategoriesPresentations(categorieName: .entertainment, categorieImageName: "content5"),CategoriesPresentations(categorieName: .health, categorieImageName: "content6"), CategoriesPresentations(categorieName: .sports, categorieImageName: "content7")]
     
     func load() {
-        
+        notify(.setTitle("Categories"))
+        notify(.setCategories(mainCategories, otherCategories))
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryMainCell.id, for: indexPath) as! CategoryMainCell
-            cell.textContent.text = mainCategories[indexPath.row].categorieName.rawValue.uppercased()
-            cell.imageView.image = UIImage(named: mainCategories[indexPath.row].categorieImageName)
-            return cell
-        }else{
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryOtherCell.id, for: indexPath) as! CategoryOtherCell
-            cell.textContent.text = otherCategories[indexPath.row].categorieName.rawValue.uppercased()
-            cell.genreIcon.image = UIImage(named: otherCategories[indexPath.row].categorieImageName)
-            return cell
-        }
-
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            delegate?.navigate(to: .categorieResult(mainCategories[indexPath.row].categorieName))
+    func categorieDidSelect(selected index: IndexPath) {
+        if index.section == 0 {
+            delegate?.navigate(to: .categorieResult(mainCategories[index.row].categorieName))
         }else {
-            delegate?.navigate(to: .categorieResult(otherCategories[indexPath.row].categorieName))
+            delegate?.navigate(to: .categorieResult(otherCategories[index.row].categorieName))
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0{
-            return mainCategories.count
-        }else {
-            return otherCategories.count
-        }
+    private func notify(_ output: CategoriesViewModelOutput){
+        delegate?.handleViewModelOutput(output)
     }
     
 }

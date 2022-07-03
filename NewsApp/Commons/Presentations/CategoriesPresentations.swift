@@ -1,13 +1,13 @@
 //
-//  Categories.swift
+//  CategoriesPresentations.swift
 //  NewsApp
 //
-//  Created by Bedirhan Turhan on 2.07.2022.
+//  Created by Bedirhan Turhan on 3.07.2022.
 //
 
 import Foundation
 
-struct Categorie{
+struct CategoriesPresentations{
     let categorieName : THCategories
     let categorieImageName : String
 }
