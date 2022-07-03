@@ -11,19 +11,10 @@ import SafariServices
 
 class NewsDetailViewController: UIViewController {
     
-    var news : News?
-    
-    init() {
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    init(newsObject: News) {
-        super.init(nibName: nil, bundle: nil)
-        news = newsObject
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    var viewModel : NewsDetailViewModelProtocol! {
+        didSet{
+            viewModel.delegate = self
+        }
     }
     
     let imageView : UIImageView = {
@@ -74,10 +65,7 @@ class NewsDetailViewController: UIViewController {
     }()
     
     @objc private func readMore(){
-        guard let urlWebSite = news?.url else { return }
-        let urlW = URL(string: urlWebSite)
-        let vc = SFSafariViewController(url: urlW!)
-        present(vc, animated: true, completion: nil)
+        viewModel.showNewsDetailsInBrowser()
     }
     
     let saveButton : UIButton = {
@@ -124,13 +112,16 @@ class NewsDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViews()
+        layout()
+        setup()
         view.backgroundColor = .white
-        //deleteButton.isHidden = true
-        fillingBlanks()
     }
     
-    func setupViews(){
+    func setup(){
+        viewModel.load()
+    }
+    
+    func layout(){
         view.addSubview(imageView)
         view.addSubview(saveAndDelete)
         view.addSubview(headerText)
@@ -167,27 +158,36 @@ class NewsDetailViewController: UIViewController {
         saveAndDelete.addArrangedSubview(deleteButton)
         saveAndDelete.addArrangedSubview(saveButton)
     }
+}
+
+
+//MARK: - ViewModel Delegate
+extension NewsDetailViewController : NewsDetailViewModelDelegate {
+    func handleViewModelOutput(_ output: NewsDetailViewModelOutput) {
+        switch output {
+        case .setTitle(let title):
+            self.title = title
+        case .setLoading(let bool):
+            print("loading \(bool)")
+        case .showNotification(let result, let notificationText):
+            if(result){
+                customNotification(_title: "Success!", _message: notificationText)
+            }else{
+                customNotification(_title: "Error!", _message: notificationText)
+            }
+            
+        case .showNewsDetail(let newsPresentation):
+            headerText.text = newsPresentation.title
+            newsContentText.text = newsPresentation.content
+            try? imageView.sd_setImage(with: newsPresentation.urlToImage?.asURL(), completed: nil)
+        }
+    }
     
-    func fillingBlanks(){
-        guard news != nil else { return }
-        //title
-        headerText.text = news?.title
-        //image
-        if let urlCheck = news?.urlToImage {
-        let urlImage = URL(string: urlCheck)
-        imageView.sd_setImage(with: urlImage)
+    func navigate(to route: NewsDetailRoute) {
+        switch route {
+        case .showNewsDetailsInSafari(let url):
+            let vc = SFSafariViewController(url: url)
+            present(vc, animated: true, completion: nil)
         }
-        //detail Text
-        var detailText = ""
-        
-        if let description = news?.description {
-            detailText = description
-        }
-        
-        if let content = news?.content {
-            detailText = detailText + "\n \(content)"
-        }
-        
-        newsContentText.text = detailText
     }
 }

@@ -14,17 +14,19 @@ final class NewsPresentation {
     let url: String
     let urlToImage: String?
     let publishedAt: String
+    let content : String?
     
-    init(source: String, author: String?, title: String, url: String, urlToImage: String?, publishedAt: String) {
+    init(source: String, author: String?, title: String, url: String, urlToImage: String?, publishedAt: String,content : String?) {
         self.source = source
         self.author = author
         self.title = title
         self.url = url
         self.urlToImage = urlToImage
         self.publishedAt = publishedAt
+        self.content = content
     }
     convenience init(topHeadline: THArticleModel) {
-        self.init(source: topHeadline.source.name, author: topHeadline.author, title: topHeadline.title, url: topHeadline.url, urlToImage: topHeadline.urlToImage, publishedAt: topHeadline.publishedAt)
+        self.init(source: topHeadline.source.name, author: topHeadline.author, title: topHeadline.title, url: topHeadline.url, urlToImage: topHeadline.urlToImage, publishedAt: topHeadline.publishedAt, content: topHeadline.content)
     }
 }
 

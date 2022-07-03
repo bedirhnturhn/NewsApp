@@ -14,6 +14,7 @@ final class CategoryResultViewModel : CategoryResultViewModelProtocol {
     let selectedCategory : THCategories
     weak var delegate: CategoryResultViewModelDelegate?
     let service : NewsServiceProtocol?
+    var newsModelArray = [THArticleModel]()
     
     init(_ selectedCategory : THCategories, service : NewsServiceProtocol = NewsService()){
         self.selectedCategory = selectedCategory
@@ -22,18 +23,24 @@ final class CategoryResultViewModel : CategoryResultViewModelProtocol {
     
     func load() {
         notify(.setLoading(true))
+        notify(.updateTitle("News"))
         service?.fetchTHNewsDelegate(2, selectedCategory, completion: { [self] result in
             notify(.setLoading(false))
             switch result {
             case .failure(let err):
                 print(err.rawValue)
             case .success(let newsArray):
+                newsModelArray = newsArray
                 let presentations = newsArray.map({NewsPresentation(topHeadline: $0)})
                 print(presentations[0].publishedAt)
                 notify(.updateApps(presentations))
             }
         })
         
+    }
+    
+    func didSelectNews(selected index: Int) {
+        delegate?.navigate(to: .newsDetail(newsModelArray[index]))
     }
     
     private func notify(_ output: CategoryResultViewModelOutput){

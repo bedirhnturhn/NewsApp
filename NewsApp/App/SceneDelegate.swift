@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let viewModel = CategoryResultViewModel(.technology)
         let builder = CategoryResultBuilder.make(with: viewModel)
 //        window?.rootViewController = TabBarController()
-        window?.rootViewController = builder
+        window?.rootViewController = UINavigationController(rootViewController: builder)
         window?.makeKeyAndVisible()
     }
 

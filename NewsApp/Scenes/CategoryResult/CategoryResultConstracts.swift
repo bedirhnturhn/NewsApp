@@ -11,6 +11,7 @@ import UIKit
 protocol CategoryResultViewModelProtocol : AnyObject {
     var delegate : CategoryResultViewModelDelegate? { get set }
     func load()
+    func didSelectNews(selected index : Int)
 }
 
 enum CategoryResultViewModelOutput {
@@ -20,7 +21,7 @@ enum CategoryResultViewModelOutput {
 }
 
 enum CategoryResultViewRoute{
-    case newsDetail(News)
+    case newsDetail(THArticleModel)
 }
 
 protocol CategoryResultViewModelDelegate : AnyObject {
