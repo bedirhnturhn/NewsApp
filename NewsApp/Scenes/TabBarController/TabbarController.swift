@@ -9,14 +9,18 @@ import UIKit
 
 class TabBarController: UITabBarController {
     
-    let vc1 = UINavigationController(rootViewController: HomeViewController())
-    let vc2 = UINavigationController(rootViewController: CategoriesViewController())
+    let viewModel1 = HomeViewModel()
+    let viewModel2 = CategoriesViewModel()
+//    let viewModel3 =
+    
+    lazy var vc1 = UINavigationController(rootViewController: HomeBuilder.make(with: viewModel1))
+    lazy var vc2 = UINavigationController(rootViewController: CategoriesBuilder.make(with: viewModel2))
     let vc3 = UINavigationController(rootViewController: SearchPage())
    
     override func viewDidLoad() {
-        self.setViewControllers([vc1,vc2,vc3], animated: false)
+        self.setViewControllers([vc1,vc2,vc3], animated: true)
         vc1.title = "FEED"
-        vc2.title = "CATEGORY"
+        vc2.title = "CATEGORIES"
         vc3.title = "SEARCH"
         setImage()
         self.selectedIndex = 0
@@ -36,7 +40,7 @@ class TabBarController: UITabBarController {
         guard let items = self.tabBar.items else {
             return
         }
-        let image = ["news","categorize","search"]
+        let image = ["news","categories","search"]
         
         
         for x in 0..<items.count {

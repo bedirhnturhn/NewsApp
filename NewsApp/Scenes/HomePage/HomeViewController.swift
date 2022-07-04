@@ -127,7 +127,6 @@ extension HomeViewController : HomeViewModelDelegate {
         case .setTitle(let title):
             self.title = title
         case .updateHeader(let newsArray):
-            print(newsArray[3].urlToImage)
             headerProtocol?.updateUI(new: newsArray)
             break
         }
