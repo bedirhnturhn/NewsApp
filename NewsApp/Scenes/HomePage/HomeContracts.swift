@@ -13,31 +13,30 @@ protocol HomeViewModelProtocol {
     func load()
     func fetchTopNews()
     func fetchOtherNews()
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView
-    
+    func didSelectNews(selected index : IndexPath)
+    func didSelectNewsFromHeader(selectedIndex : Int)
 }
 
-enum HomeModelOutput{
+enum HomeViewModelOutput{
+    case setTitle(String)
     case setLoading(Bool)
     case showNotification(result: Bool,notificationText : String)
-    case updateCollectionView
+    case updateCollectionView(_ newsPresentationArray : [NewsPresentation])
+    case updateHeader(_ newsPresentationArray : [NewsPresentation])
 }
 
 enum HomeRoute {
-    case newsDetail(_ selectedNews : News)
+    case newsDetail(_ selectedNews : THArticleModel)
 }
 
 protocol HomeViewModelDelegate {
-    func handleViewModelOutput(_ output: HomeModelOutput)
+    func handleViewModelOutput(_ output: HomeViewModelOutput)
     func navigate(to route: HomeRoute)
 }
 
 protocol HomeHeaderProtocol : AnyObject{
     var delegate : HomeHeaderDelegate? { get set }
-    func updateUI(new news: [News])
+    func updateUI(new news: [NewsPresentation])
 }
 
 protocol HomeHeaderDelegate : AnyObject{

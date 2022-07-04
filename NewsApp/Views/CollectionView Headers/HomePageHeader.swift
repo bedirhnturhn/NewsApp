@@ -32,7 +32,7 @@ final class HomePageHeader: UICollectionReusableView, UIScrollViewDelegate {
         return indicator
     }()
     
-    var topHeadlines = [News]()
+    var topHeadlines = [NewsPresentation]()
     public static let sliderHeight = 225
     
     override init(frame: CGRect) {
@@ -161,7 +161,7 @@ class SliderCellView2 : UIView {
 }
 
 extension HomePageHeader : HomeHeaderProtocol{
-    func updateUI(new news: [News]) {
+    func updateUI(new news: [NewsPresentation]) {
         DispatchQueue.main.async { [self] in
             topHeadlines = news
             scrollViewNews.reloadInputViews()
