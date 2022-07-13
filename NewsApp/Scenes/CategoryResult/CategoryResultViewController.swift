@@ -69,8 +69,9 @@ extension CategoryResultViewController : UICollectionViewDelegate , UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let news = newsPresentationArray[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryResultCell.id, for: indexPath) as! CategoryResultCell
-        try? cell.imageView.sd_setImage(with: news.urlToImage?.asURL(), completed: nil)
         cell.newsText.text = news.title
+        guard let urlString = news.urlToImage else {return cell}
+        cell.imageView.sd_setImage(with: URL(string: urlString), completed: nil)
         return cell
     }
     
@@ -98,6 +99,14 @@ extension CategoryResultViewController : CategoryResultViewModelDelegate {
             DispatchQueue.main.sync {
                 self.newsPresentationArray = newsPresentationArray
                 self.collectionView.reloadData()
+            }
+        case .showNotification(status: let status, text: let text):
+            DispatchQueue.main.async {[self] in
+                if(status){
+                    customNotification(_title: "Success!", _message: text)
+                }else{
+                    customNotification(_title: "Error!", _message: text)
+                }
             }
         }
     }

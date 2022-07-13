@@ -6,12 +6,10 @@
 //
 
 import UIKit
-import Alamofire
+
 
 class SearchPage : UIViewController  {
-    let apiKey: String = "565b53ef125c494985797acd7d1cfdf4"
-    var url = "https://newsapi.org/v2/everything?q=tesla&from=2021-06-14&sortBy=publishedAt&apiKey=565b53ef125c494985797acd7d1cfdf4"
-    var newsA : [News] = []
+    
     
     lazy var tbView : UITableView = {
         let tv = UITableView()
@@ -38,15 +36,13 @@ class SearchPage : UIViewController  {
         title = "Search"
         setupElements()
         navigationItem.searchController = searchController
-        fetchNews()
-        
     }
 }
 
 extension SearchPage : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return newsA.count
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -112,21 +108,3 @@ class SourceCell: UITableViewCell {
     }
 }
 
-
-extension SearchPage {
-    // you need write your api key from newsapi.org
-    func fetchNews(){
-        AF.request("https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=565b53ef125c494985797acd7d1cfdf4")
-            .validate()
-            .responseDecodable(of: SourceStatus.self) { (response) in
-                //print(response.value)
-                guard let news = response.value else {  return }
-                print(news.articles[0].title)
-                self.newsA = news.articles
-                self.tbView.reloadData()
-            }
-        
-    }
-    
-    
-}

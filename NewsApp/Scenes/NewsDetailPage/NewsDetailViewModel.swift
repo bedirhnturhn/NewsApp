@@ -34,14 +34,16 @@ final class NewsDetailViewModel : NewsDetailViewModelProtocol{
     
     func showNewsDetailsInBrowser() {
         notify(.setLoading(true))
-        do{
-            let url = try selectedNews.url.asURL()
-            notify(.setLoading(false))
-            delegate?.navigate(to: .showNewsDetailsInSafari(url))
-        }catch{
+        guard let url = URL(string: selectedNews.url) else {
             notify(.setLoading(false))
             notify(.showNotification(result: false, notificationText: "News url is broken."))
+            return
         }
+        notify(.setLoading(false))
+        delegate?.navigate(to: .showNewsDetailsInSafari(url))
+        
+        
+        
     }
     
     private func notify(_ output : NewsDetailViewModelOutput){

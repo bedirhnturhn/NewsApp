@@ -9,7 +9,9 @@ import UIKit
 
 class TabBarController: UITabBarController {
     
-    let viewModel1 = HomeViewModel()
+    
+    
+    let viewModel1 = HomeViewModel(networkService: app.service)
     let viewModel2 = CategoriesViewModel()
 //    let viewModel3 =
     
@@ -18,7 +20,7 @@ class TabBarController: UITabBarController {
     let vc3 = UINavigationController(rootViewController: SearchPage())
    
     override func viewDidLoad() {
-        self.setViewControllers([vc1,vc2,vc3], animated: true)
+        self.setViewControllers([vc1,vc2,vc3], animated: false)
         vc1.title = "FEED"
         vc2.title = "CATEGORIES"
         vc3.title = "SEARCH"

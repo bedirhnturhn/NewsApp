@@ -18,6 +18,7 @@ enum CategoryResultViewModelOutput {
     case updateTitle(String)
     case setLoading(Bool)
     case updateApps([NewsPresentation])
+    case showNotification(status : Bool,text : String)
 }
 
 enum CategoryResultViewRoute{

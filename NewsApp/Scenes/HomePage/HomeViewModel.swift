@@ -11,8 +11,12 @@ final class HomeViewModel : HomeViewModelProtocol {
     var delegate : HomeViewModelDelegate?
     var otherNews = [THArticleModel]()
     var topHeadlinesNEws = [THArticleModel]()
-    let newsServices = NewsService()
     weak var sliderObject : HomePageHeader?
+    private let networkService : NewNewsServiceProtocol
+    
+    init(networkService : NewNewsServiceProtocol){
+        self.networkService = networkService
+    }
     
     func load() {
         notify(.setTitle("HOME"))
@@ -21,27 +25,29 @@ final class HomeViewModel : HomeViewModelProtocol {
     }
     
     func fetchTopNews() {
-        newsServices.fetchTHNewsDelegate(5, .business) { [self] result in
+        let request = THNewsRequest(selectedCategory: .general, page: 1)
+        networkService.fetchNews(request) { result in
             switch result {
-            case .success(let fetchedNews):
-                topHeadlinesNEws = fetchedNews
-                let presentationArray = topHeadlinesNEws.map({NewsPresentation(topHeadline: $0)})
-                notify(.updateHeader(presentationArray))
-            case .failure(let error):
-                delegate?.handleViewModelOutput(.showNotification(result: false, notificationText: error.rawValue))
+            case.failure(let errorResponse):
+                self.notify(.showNotification(result: false, notificationText: errorResponse.rawValue))
+            case .success(let articles):
+                self.topHeadlinesNEws = articles
+                let presentationArray = self.topHeadlinesNEws.map({NewsPresentation(topHeadline: $0)})
+                self.notify(.updateHeader(presentationArray))
             }
         }
     }
     
-    func fetchOtherNews() {
-        newsServices.fetchDelegate(10) {[self] result in
-            switch(result){
-            case .success(let fetchedNews):
-                otherNews = fetchedNews
-                let presentationArray = otherNews.map({NewsPresentation(topHeadline: $0)})
-                notify(.updateCollectionView(presentationArray))
-            case .failure(let error):
-                delegate?.handleViewModelOutput(.showNotification(result: false, notificationText: error.rawValue))
+    func fetchOtherNews(page : Int = 2){
+        let request = THNewsRequest(selectedCategory: .general, page: page)
+        networkService.fetchNews(request) { result in
+            switch result {
+            case .failure(let err):
+                self.notify(.showNotification(result: false, notificationText: err.rawValue))
+            case .success(let articles):
+                self.otherNews = articles
+                let presentationArray = self.otherNews.map({NewsPresentation(topHeadline: $0)})
+                self.notify(.updateCollectionView(presentationArray))
             }
         }
     }
@@ -55,9 +61,6 @@ final class HomeViewModel : HomeViewModelProtocol {
         let selectedHeaderTHArticle = topHeadlinesNEws[selectedIndex]
         delegate?.navigate(to: .newsDetail(selectedHeaderTHArticle))
     }
-    
-    
-    
     
     private func notify(_ output : HomeViewModelOutput){
         delegate?.handleViewModelOutput(output)

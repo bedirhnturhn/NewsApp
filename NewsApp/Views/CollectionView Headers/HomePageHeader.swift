@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import Alamofire
+
 
 
 final class HomePageHeader: UICollectionReusableView, UIScrollViewDelegate {

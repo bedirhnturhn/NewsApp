@@ -133,7 +133,7 @@ extension CategoriesViewController : CategoriesViewModelDelegate {
     func navigate(to route: CategoriesRoute) {
         switch route {
         case .categorieResult(let selectedCategorie):
-            let viewModel = CategoryResultViewModel(selectedCategorie)
+            let viewModel = CategoryResultViewModel(selectedCategorie, service: app.service)
             let vc = CategoryResultBuilder.make(with: viewModel)
             navigationController?.pushViewController(vc, animated: true)
         }

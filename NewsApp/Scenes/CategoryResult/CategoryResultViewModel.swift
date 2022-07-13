@@ -13,10 +13,10 @@ final class CategoryResultViewModel : CategoryResultViewModelProtocol {
     //presentation
     let selectedCategory : THCategories
     weak var delegate: CategoryResultViewModelDelegate?
-    let service : NewsServiceProtocol?
+    let service : NewNewsServiceProtocol!
     var newsModelArray = [THArticleModel]()
     
-    init(_ selectedCategory : THCategories, service : NewsServiceProtocol = NewsService()){
+    init(_ selectedCategory : THCategories, service : NewNewsServiceProtocol){
         self.selectedCategory = selectedCategory
         self.service = service
     }
@@ -24,19 +24,21 @@ final class CategoryResultViewModel : CategoryResultViewModelProtocol {
     func load() {
         notify(.setLoading(true))
         notify(.updateTitle(selectedCategory.rawValue.uppercased()))
-        service?.fetchTHNewsDelegate(2, selectedCategory, completion: { [self] result in
-            notify(.setLoading(false))
-            switch result {
+        fetchNews(selectedCategory: selectedCategory)
+    }
+    
+    private func fetchNews(selectedCategory : THCategories){
+        let request = THNewsRequest(selectedCategory: selectedCategory, page: 1)
+        service.fetchNews(request) { [self]result in
+            switch result{
             case .failure(let err):
-                print(err.rawValue)
-            case .success(let newsArray):
-                newsModelArray = newsArray
-                let presentations = newsArray.map({NewsPresentation(topHeadline: $0)})
-                print(presentations[0].publishedAt)
+                notify(.showNotification(status: false, text: err.rawValue))
+            case.success(let articles):
+                newsModelArray = articles
+                let presentations = newsModelArray.map({NewsPresentation(topHeadline: $0)})
                 notify(.updateApps(presentations))
             }
-        })
-        
+        }
     }
     
     func didSelectNews(selected index: Int) {

@@ -179,7 +179,8 @@ extension NewsDetailViewController : NewsDetailViewModelDelegate {
         case .showNewsDetail(let newsPresentation):
             headerText.text = newsPresentation.title
             newsContentText.text = newsPresentation.content
-            try? imageView.sd_setImage(with: newsPresentation.urlToImage?.asURL(), completed: nil)
+            guard let urlString = newsPresentation.urlToImage else {return}
+            imageView.sd_setImage(with: URL(string: urlString))
         }
     }
     

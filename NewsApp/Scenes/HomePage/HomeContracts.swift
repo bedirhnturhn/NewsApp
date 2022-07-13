@@ -12,7 +12,7 @@ protocol HomeViewModelProtocol {
     var delegate : HomeViewModelDelegate? {get set}
     func load()
     func fetchTopNews()
-    func fetchOtherNews()
+    func fetchOtherNews(page : Int)
     func didSelectNews(selected index : IndexPath)
     func didSelectNewsFromHeader(selectedIndex : Int)
 }

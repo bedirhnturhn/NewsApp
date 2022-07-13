@@ -14,5 +14,6 @@ enum NetworkResponse: String, Error {
     case failed = "Network request failed."
     case noData = "Response returned with no data to decode."
     case unableToDecode = "We could not decode the response."
+    
 }
 

@@ -34,6 +34,14 @@ final class HomeViewController : UIViewController{
         return cv
     }()
     
+    lazy var refreshControl : UIRefreshControl = {
+        let rC = UIRefreshControl()
+        rC.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        rC.addTarget(self, action: #selector(didPullToRefresh(_:)), for: .valueChanged)
+        
+        return rC
+    }()
+    
     //MARK: - Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +54,8 @@ final class HomeViewController : UIViewController{
         collectionView.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: HomeCollectionViewCell.cellId)
         collectionView.backgroundColor = .white
         collectionView.register(HomePageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomePageHeader.headerId)
-        
+        collectionView.alwaysBounceVertical = true
+        collectionView.refreshControl = refreshControl
         viewModel.load()
     }
     
@@ -64,6 +73,14 @@ final class HomeViewController : UIViewController{
             make.bottom.equalToSuperview()
         }
     }
+    @objc
+    private func didPullToRefresh(_ sender : Any){
+        viewModel.load()
+        print("refereshing")
+        // Do you your api calls in here, and then asynchronously remember to stop the
+        // refreshing when you've got a result (either positive or negative)
+        refreshControl.endRefreshing()
+    }
 }
 
 extension HomeViewController : UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -75,7 +92,8 @@ extension HomeViewController : UICollectionViewDelegate , UICollectionViewDataSo
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.cellId, for: indexPath) as! HomeCollectionViewCell
         let item = otherNews[indexPath.row]
         cell.headerText.text = item.title
-        try? cell.imageView.sd_setImage(with: item.urlToImage?.asURL(), completed: nil)
+        guard let urlString = item.urlToImage else {return cell}
+        cell.imageView.sd_setImage(with: URL(string: urlString), completed: nil)
         return cell
     }
     
@@ -114,10 +132,12 @@ extension HomeViewController : HomeViewModelDelegate {
         case .setLoading(let bool):
             print("set loading \(bool)")
         case .showNotification(let result, let notificationText):
-            if(result){
-                customNotification(_title: "Success!", _message: notificationText)
-            }else{
-                customNotification(_title: "Error!", _message: notificationText)
+            DispatchQueue.main.async {[self] in
+                if(result){
+                    customNotification(_title: "Success!", _message: notificationText)
+                }else{
+                    customNotification(_title: "Error!", _message: notificationText)
+                }
             }
         case .updateCollectionView(let newNewsArray):
             DispatchQueue.main.async { [self] in

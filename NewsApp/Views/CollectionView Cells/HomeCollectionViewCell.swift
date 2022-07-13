@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import Alamofire
+
 import SDWebImage
 import SnapKit
 
