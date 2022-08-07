@@ -57,7 +57,7 @@ final class HomePageHeader: UICollectionReusableView, UIScrollViewDelegate {
         scrollIndicator.numberOfPages = topHeadlines.count
         scrollViewNews.contentSize = CGSize(width: self.bounds.width * CGFloat(topHeadlines.count), height: CGFloat(225))
         
-        for (index, objectNews) in topHeadlines.enumerated() {
+        for (index, objectNews) in topHeadlines.enumerated(){
             let newsO = objectNews
             let newsViewC = SliderCellView2()
             newsViewC.newsHeaderLabel.text = newsO.title
@@ -77,8 +77,6 @@ final class HomePageHeader: UICollectionReusableView, UIScrollViewDelegate {
         delegate?.showNewsDetailsInHomeSlider(sender.tag)
         
     }
-    
-    
     
     private func setupLayout(){
         self.addSubview(scrollViewNews)
@@ -163,8 +161,8 @@ class SliderCellView2 : UIView {
 extension HomePageHeader : HomeHeaderProtocol{
     func updateUI(new news: [NewsPresentation]) {
         DispatchQueue.main.async { [self] in
+            topHeadlines.removeAll()
             topHeadlines = news
-            scrollViewNews.reloadInputViews()
             loadFeatures()
         }
     }

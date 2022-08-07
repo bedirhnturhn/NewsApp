@@ -11,17 +11,10 @@ import Foundation
 struct THNewsRequest : DataRequest {
     var page : Int
     var selectedCategory : THCategories
+    
     init(selectedCategory : THCategories, page : Int){
         self.page = page
         self.selectedCategory = selectedCategory
-    }
-    
-    var method: HttpMethod{
-        .get
-    }
-    
-    var headers : [String : String]{
-        [:]
     }
     
     var path: String {
@@ -30,7 +23,7 @@ struct THNewsRequest : DataRequest {
     
     var queryItems: [String : String]{
         ["apiKey" : APISettings.news_api_key,
-         "country" : "us",
+         "country" : APISettings.country,
          "pageSize": "\(10)",
          "page": "\(page)",
          "category": selectedCategory.rawValue]

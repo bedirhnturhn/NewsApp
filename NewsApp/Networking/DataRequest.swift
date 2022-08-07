@@ -37,7 +37,7 @@ extension DataRequest where Response: Decodable {
 }
 
 extension DataRequest {
-    var httpMethod: HttpMethod {
+    var method: HttpMethod {
         return .get
     }
 

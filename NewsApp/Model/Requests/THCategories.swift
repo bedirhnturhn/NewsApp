@@ -7,13 +7,7 @@
 
 import Foundation
 
-struct THRequest {
-    let country: String?
-    let category: THCategories?
-    let qWord: String?
-    let pageSize: Int?
-    let page: Int?
-}
+
 enum THCategories : String {
     case business
     case entertainment

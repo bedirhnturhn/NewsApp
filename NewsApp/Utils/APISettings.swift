@@ -11,4 +11,6 @@ struct APISettings {
     static let scheme : String = "https"
     static let host : String = "newsapi.org"
     static let news_api_key : String = "565b53ef125c494985797acd7d1cfdf4"
+    static let country : String = "us"
+    static let language : String = "en"
 }
