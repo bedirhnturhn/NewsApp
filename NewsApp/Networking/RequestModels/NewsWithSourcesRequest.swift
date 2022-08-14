@@ -25,7 +25,8 @@ struct NewsWithSourcesRequest : DataRequest {
          "country" : APISettings.country,
          "pageSize": "\(10)",
          "page": "\(page)",
-         "sources" : source]
+         "sources" : source,
+        ]
     }
     
     func decode(_ data: Data) throws -> [EArticleModel] {

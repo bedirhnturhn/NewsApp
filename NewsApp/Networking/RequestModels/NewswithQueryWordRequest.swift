@@ -1,24 +1,23 @@
 //
-//  THNewsRequest.swift
+//  NewswithQueryWordRequest.swift
 //  NewsApp
 //
-//  Created by Bedirhan Turhan on 12.07.2022.
+//  Created by Bedirhan Turhan on 14.08.2022.
 //
 
 import Foundation
 
-
-struct THNewsRequest : DataRequest {
+struct NewsWithQueryWordRequest : DataRequest{
+    var queryWord : String
     var page : Int
-    var selectedCategory : THCategories
     
-    init(selectedCategory : THCategories, page : Int){
+    init(_ queryWord : String, _ page : Int){
         self.page = page
-        self.selectedCategory = selectedCategory
+        self.queryWord = queryWord
     }
     
-    var path: String {
-        EndPointType.topHeadline.rawValue
+    var path: String{
+        EndPointType.everything.rawValue
     }
     
     var queryItems: [String : String]{
@@ -26,18 +25,17 @@ struct THNewsRequest : DataRequest {
          "country" : APISettings.country,
          "pageSize": "\(10)",
          "page": "\(page)",
-         "category": selectedCategory.rawValue]
+         "q": queryWord]
     }
     
-    func decode(_ data: Data) throws -> [THArticleModel] {
+    func decode(_ data: Data) throws -> [EArticleModel] {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         decoder.dateDecodingStrategy = .formatted(dateFormatter)
         
-        let response = try decoder.decode(THNewsModel.self, from: data)
+        let response = try decoder.decode(ENewsModel.self, from: data)
         return response.articles
     }
-    
 }

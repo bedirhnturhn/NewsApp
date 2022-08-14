@@ -67,6 +67,7 @@
 		FEDA855728A8FD3400407B59 /* SearchContracts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA855628A8FD3400407B59 /* SearchContracts.swift */; };
 		FEDA855928A9035600407B59 /* SearchPageBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA855828A9035600407B59 /* SearchPageBuilder.swift */; };
 		FEDA855B28A96DE300407B59 /* NewsWithSourcesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA855A28A96DE300407B59 /* NewsWithSourcesRequest.swift */; };
+		FEDA855D28A9737E00407B59 /* NewswithQueryWordRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA855C28A9737E00407B59 /* NewswithQueryWordRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -148,6 +149,7 @@
 		FEDA855628A8FD3400407B59 /* SearchContracts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContracts.swift; sourceTree = "<group>"; };
 		FEDA855828A9035600407B59 /* SearchPageBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPageBuilder.swift; sourceTree = "<group>"; };
 		FEDA855A28A96DE300407B59 /* NewsWithSourcesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsWithSourcesRequest.swift; sourceTree = "<group>"; };
+		FEDA855C28A9737E00407B59 /* NewswithQueryWordRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewswithQueryWordRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -344,6 +346,7 @@
 				FE5DD1CF288458EB0021093C /* SourcesRequest.swift */,
 				FE6BFBE7287D91AE0000AF27 /* THNewsRequest.swift */,
 				FEDA855A28A96DE300407B59 /* NewsWithSourcesRequest.swift */,
+				FEDA855C28A9737E00407B59 /* NewswithQueryWordRequest.swift */,
 			);
 			path = RequestModels;
 			sourceTree = "<group>";
@@ -686,6 +689,7 @@
 				FEB05E32287081D400E68040 /* CategoryResultConstracts.swift in Sources */,
 				FEDA855928A9035600407B59 /* SearchPageBuilder.swift in Sources */,
 				FE3A86C9286B386800E02514 /* CategoriesViewModel.swift in Sources */,
+				FEDA855D28A9737E00407B59 /* NewswithQueryWordRequest.swift in Sources */,
 				FE8B148E2869BEAF00980C9A /* HomeViewController.swift in Sources */,
 				FE6BFBE8287D91AE0000AF27 /* THNewsRequest.swift in Sources */,
 				FEB05E3D2870B3FB00E68040 /* NewsPresentation.swift in Sources */,
