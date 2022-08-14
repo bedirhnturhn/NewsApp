@@ -13,11 +13,11 @@ class TabBarController: UITabBarController {
     
     let viewModel1 = HomeViewModel(networkService: app.service)
     let viewModel2 = CategoriesViewModel()
-//    let viewModel3 =
+    let viewModel3 = SearchViewModel(app.service)
     
     lazy var vc1 = UINavigationController(rootViewController: HomeBuilder.make(with: viewModel1))
     lazy var vc2 = UINavigationController(rootViewController: CategoriesBuilder.make(with: viewModel2))
-    let vc3 = UINavigationController(rootViewController: SearchPage())
+    lazy var vc3 = UINavigationController(rootViewController: searchPageBuilder.make(with: viewModel3))
    
     override func viewDidLoad() {
         self.setViewControllers([vc1,vc2,vc3], animated: false)
