@@ -8,7 +8,7 @@
 import Foundation
 
 
-enum THCategories : String {
+enum THCategories : String, CaseIterable {
     case business
     case entertainment
     case general

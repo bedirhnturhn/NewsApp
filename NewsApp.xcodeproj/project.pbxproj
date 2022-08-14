@@ -66,6 +66,7 @@
 		FEDA855528A8FD2700407B59 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA855428A8FD2700407B59 /* SearchViewModel.swift */; };
 		FEDA855728A8FD3400407B59 /* SearchContracts.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA855628A8FD3400407B59 /* SearchContracts.swift */; };
 		FEDA855928A9035600407B59 /* SearchPageBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA855828A9035600407B59 /* SearchPageBuilder.swift */; };
+		FEDA855B28A96DE300407B59 /* NewsWithSourcesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA855A28A96DE300407B59 /* NewsWithSourcesRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,6 +147,7 @@
 		FEDA855428A8FD2700407B59 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		FEDA855628A8FD3400407B59 /* SearchContracts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchContracts.swift; sourceTree = "<group>"; };
 		FEDA855828A9035600407B59 /* SearchPageBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPageBuilder.swift; sourceTree = "<group>"; };
+		FEDA855A28A96DE300407B59 /* NewsWithSourcesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsWithSourcesRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -341,6 +343,7 @@
 			children = (
 				FE5DD1CF288458EB0021093C /* SourcesRequest.swift */,
 				FE6BFBE7287D91AE0000AF27 /* THNewsRequest.swift */,
+				FEDA855A28A96DE300407B59 /* NewsWithSourcesRequest.swift */,
 			);
 			path = RequestModels;
 			sourceTree = "<group>";
@@ -669,6 +672,7 @@
 				FE8B14BD2869E2AC00980C9A /* THSourceModel.swift in Sources */,
 				B2D958FC266699FB00A9FD81 /* AppDelegate.swift in Sources */,
 				FE2D8632287EC03800A49580 /* AppContainer.swift in Sources */,
+				FEDA855B28A96DE300407B59 /* NewsWithSourcesRequest.swift in Sources */,
 				FE8B14922869BEFA00980C9A /* HomeContracts.swift in Sources */,
 				FE8B14A72869CEEA00980C9A /* Constants.swift in Sources */,
 				FE6BFBE3287D5F510000AF27 /* DataRequest.swift in Sources */,

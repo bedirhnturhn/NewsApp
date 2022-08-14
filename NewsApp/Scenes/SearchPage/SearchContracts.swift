@@ -10,6 +10,7 @@ import Foundation
 protocol SearchViewModelProtocol{
     var delegate : SearchViewModelDelegate? {get set}
     var sources : [Sources] { get set }
+    var categories : [String] {get set}
     func load()
 }
 

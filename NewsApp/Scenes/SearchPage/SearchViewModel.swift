@@ -10,6 +10,7 @@ import Foundation
 final class SearchViewModel : SearchViewModelProtocol {
     weak var delegate: SearchViewModelDelegate?
     var sources: [Sources] = []
+    var categories: [String] = []
     var services : NewNewsServiceProtocol
     
     init(_ service : NewNewsServiceProtocol){
@@ -19,18 +20,21 @@ final class SearchViewModel : SearchViewModelProtocol {
     func load() {
         notify(.setTitle("Search"))
         notify(.setLoading(true))
-        let requestModel = SourcesRequest(category: .technology)
-        services.fetchNews(requestModel) {[self] result in
-            switch result{
-            case .failure(let errorResponce):
-                notify(.setLoading(false))
-                notify(.showNotification(result: false, notificationText: errorResponce.rawValue))
-            case .success(let resources):
-                self.sources = resources
-                notify(.setLoading(false))
-                notify(.updateSourcesList)
-            }
-        }
+        categories = THCategories.allCases.map{ $0.rawValue }
+        notify(.setLoading(false))
+        notify(.updateSourcesList)
+//        let requestModel = SourcesRequest(category: .technology)
+//        services.fetchNews(requestModel) {[self] result in
+//            switch result{
+//            case .failure(let errorResponce):
+//                notify(.setLoading(false))
+//                notify(.showNotification(result: false, notificationText: errorResponce.rawValue))
+//            case .success(let resources):
+//                self.sources = resources
+//                notify(.setLoading(false))
+//                notify(.updateSourcesList)
+//            }
+//        }
     }
     
     private func notify(_ output : SearchViewModelOutput){
